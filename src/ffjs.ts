@@ -1,3 +1,2 @@
-const { utils: ffutils, Scalar, F1Field } = require('ffjavascript');
-export {ffutils, Scalar, F1Field};
+export { utils as ffutils, Scalar, F1Field } from 'ffjavascript';
 
