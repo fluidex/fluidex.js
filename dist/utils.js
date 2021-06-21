@@ -1,23 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.sha256Snark = exports.hashStateTree = exports.padZeros = exports.extract = exports.padding256 = void 0;
-const ffjs_1 = require("./ffjs");
-const hash_1 = require("./hash");
-const crypto = require("crypto");
-const circomlib_1 = require("circomlib");
+import { Scalar } from "./ffjs";
+import { hash } from './hash';
+import * as crypto from 'crypto';
+import { babyJub } from 'circomlib';
 /**
  * Convert to hexadecimal string padding until 256 characters
  * @param {Number | Scalar} n - Input number
  * @returns {String} String encoded as hexadecimal with 256 characters
  */
 function padding256(n) {
-    let nstr = ffjs_1.Scalar.e(n).toString(16);
+    let nstr = Scalar.e(n).toString(16);
     while (nstr.length < 64)
         nstr = '0' + nstr;
     nstr = `0x${nstr}`;
     return nstr;
 }
-exports.padding256 = padding256;
 /**
  * Mask and shift a Scalar
  * @param {Scalar} num - Input number
@@ -26,10 +22,9 @@ exports.padding256 = padding256;
  * @returns {Scalar} Extracted Scalar
  */
 function extract(num, origin, len) {
-    const mask = ffjs_1.Scalar.sub(ffjs_1.Scalar.shl(1, len), 1);
-    return ffjs_1.Scalar.band(ffjs_1.Scalar.shr(num, origin), mask);
+    const mask = Scalar.sub(Scalar.shl(1, len), 1);
+    return Scalar.band(Scalar.shr(num, origin), mask);
 }
-exports.extract = extract;
 /**
  * Pad a string hex number with 0
  * @param {String} str - String input
@@ -41,7 +36,6 @@ function padZeros(str, length) {
         str = '0'.repeat(length - str.length) + str;
     return str;
 }
-exports.padZeros = padZeros;
 /**
  * (Hash Sha256 of an hexadecimal string) % (Snark field)
  * @param {String} str - String input in hexadecimal encoding
@@ -49,10 +43,9 @@ exports.padZeros = padZeros;
  */
 function sha256Snark(str) {
     const hash = crypto.createHash('sha256').update(str).digest('hex');
-    const h = ffjs_1.Scalar.mod(ffjs_1.Scalar.fromString(hash, 16), circomlib_1.babyJub.p);
+    const h = Scalar.mod(Scalar.fromString(hash, 16), babyJub.p);
     return h;
 }
-exports.sha256Snark = sha256Snark;
 /**
  * Convert Array of hexadecimals strings to array of BigInts
  * @param {Array} arrayHex - array of strings encoded as hex
@@ -61,7 +54,7 @@ exports.sha256Snark = sha256Snark;
 function arrayHexToBigInt(arrayHex) {
     const arrayBigInt = [];
     arrayHex.forEach(element => {
-        arrayBigInt.push(ffjs_1.Scalar.fromString(element, 16));
+        arrayBigInt.push(Scalar.fromString(element, 16));
     });
     return arrayBigInt;
 }
@@ -113,7 +106,7 @@ function hashStateTree(balance, tokenId, Ax, Ay, ethAddress, nonce) {
         nonce,
     };
     // Hash entry and object
-    return { leafObj, elements: { e0, e1, e2, e3, e4 }, hash: hash_1.hash(entryBigInt) };
+    return { leafObj, elements: { e0, e1, e2, e3, e4 }, hash: hash(entryBigInt) };
 }
-exports.hashStateTree = hashStateTree;
+export { padding256, extract, padZeros, hashStateTree, sha256Snark };
 //# sourceMappingURL=utils.js.map

@@ -8,6 +8,6 @@
     "resolveJsonModule": true,
     "moduleResolution": "node",
     "downlevelIteration": true,
-    "module": "commonjs"
+    "module": "es6"
   }
 }
