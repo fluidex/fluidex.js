@@ -1,11 +1,14 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.OrderState = exports.OrderInput = exports.OrderSide = void 0;
 const Scalar = require('ffjavascript').Scalar;
-import { hash } from './hash';
-export var OrderSide;
+const hash_1 = require("./hash");
+var OrderSide;
 (function (OrderSide) {
     OrderSide[OrderSide["Buy"] = 0] = "Buy";
     OrderSide[OrderSide["Sell"] = 1] = "Sell";
-})(OrderSide || (OrderSide = {}));
-export class OrderInput {
+})(OrderSide = exports.OrderSide || (exports.OrderSide = {}));
+class OrderInput {
     constructor(data = {}) {
         this.accountID = 0n;
         this.orderId = 0n;
@@ -23,17 +26,18 @@ export class OrderInput {
     hash() {
         // although there is no 'TxType.PlaceOrder' now, we can see it as a 'SignType'
         const magicHead = 4n; // TxType.PlaceOrder
-        let data = hash([magicHead, this.orderId, this.tokenSell, this.tokenBuy, this.totalSell, this.totalBuy]);
+        let data = hash_1.hash([magicHead, this.orderId, this.tokenSell, this.tokenBuy, this.totalSell, this.totalBuy]);
         //data = hash([data, accountID, nonce]);
         // nonce and orderID seems redundant?
-        data = hash([data, this.accountID]);
+        data = hash_1.hash([data, this.accountID]);
         return data;
     }
     signWith(account) {
         this.sig = account.signHash(this.hash());
     }
 }
-export class OrderState {
+exports.OrderInput = OrderInput;
+class OrderState {
     get orderId() {
         return this.orderInput.orderId;
     }
@@ -82,7 +86,8 @@ export class OrderState {
      * @returns {Scalar} Resulting hash
      */
     hash() {
-        return hash(this.orderState2Array());
+        return hash_1.hash(this.orderState2Array());
     }
 }
+exports.OrderState = OrderState;
 //# sourceMappingURL=order.js.map

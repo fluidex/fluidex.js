@@ -1,1 +1,1 @@
-{"version":3,"file":"ffjs.js","sourceRoot":"","sources":["../src/ffjs.ts"],"names":[],"mappings":"AAAA,MAAM,EAAE,KAAK,EAAE,OAAO,EAAE,MAAM,EAAE,OAAO,EAAE,GAAG,OAAO,CAAC,cAAc,CAAC,CAAC;AACpE,OAAO,EAAC,OAAO,EAAE,MAAM,EAAE,OAAO,EAAC,CAAC"}
+{"version":3,"file":"ffjs.js","sourceRoot":"","sources":["../src/ffjs.ts"],"names":[],"mappings":";;;AAAA,MAAM,EAAE,KAAK,EAAE,OAAO,EAAE,MAAM,EAAE,OAAO,EAAE,GAAG,OAAO,CAAC,cAAc,CAAC,CAAC;AAC5D,0BAAO;AAAE,wBAAM;AAAE,0BAAO"}

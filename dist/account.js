@@ -1,30 +1,35 @@
-import { prv2pub, signWithHasher, packSignature } from './eddsa';
-import { babyJub } from 'circomlib';
-import { Scalar } from './ffjs';
-import * as ethers from 'ethers';
-import { randomBytes } from '@ethersproject/random';
-import { defaultPath, HDNode, entropyToMnemonic } from '@ethersproject/hdnode';
-import { SigningKey } from '@ethersproject/signing-key';
-import { hash } from './hash';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TxSignature = exports.randomMnemonic = exports.recoverPublicKeyFromSignature = exports.get_CREATE_L2_ACCOUNT_MSG = exports.Account = exports.L2Account = void 0;
+const eddsa_1 = require("./eddsa");
+const circomlib_1 = require("circomlib");
+const ffjs_1 = require("./ffjs");
+const ethers = require("ethers");
+const random_1 = require("@ethersproject/random");
+const hdnode_1 = require("@ethersproject/hdnode");
+const signing_key_1 = require("@ethersproject/signing-key");
+const hash_1 = require("./hash");
 function get_CREATE_L2_ACCOUNT_MSG(chainID) {
     return 'FLUIDEX_L2_ACCOUNT' + `\nChain ID: ${chainID}.`;
 }
+exports.get_CREATE_L2_ACCOUNT_MSG = get_CREATE_L2_ACCOUNT_MSG;
 // https://github.com/ethers-io/ethers.js/issues/447#issuecomment-519163178
 function recoverPublicKeyFromSignature(message, signature) {
     const msgHash = ethers.utils.hashMessage(message);
     const msgHashBytes = ethers.utils.arrayify(msgHash);
     return ethers.utils.recoverPublicKey(msgHashBytes, signature);
 }
+exports.recoverPublicKeyFromSignature = recoverPublicKeyFromSignature;
 class L2Account {
     constructor(seed) {
         if (seed.length != 32) {
             throw new Error('invalid l2 key seed');
         }
         this.rollupPrvKey = Buffer.from(seed);
-        const bjPubKey = prv2pub(this.rollupPrvKey);
-        this.ax = Scalar.fromString(bjPubKey[0].toString(16), 16);
-        this.ay = Scalar.fromString(bjPubKey[1].toString(16), 16);
-        const compressedBuff = babyJub.packPoint(bjPubKey);
+        const bjPubKey = eddsa_1.prv2pub(this.rollupPrvKey);
+        this.ax = ffjs_1.Scalar.fromString(bjPubKey[0].toString(16), 16);
+        this.ay = ffjs_1.Scalar.fromString(bjPubKey[1].toString(16), 16);
+        const compressedBuff = circomlib_1.babyJub.packPoint(bjPubKey);
         this.sign = 0n;
         if (compressedBuff[31] & 0x80) {
             this.sign = 1n;
@@ -33,11 +38,11 @@ class L2Account {
         //this.bjjCompressed = utils.padZeros(ffutils.leBuff2int(compressedBuff).toString(16), 64);
     }
     signHashPacked(h) {
-        const sig = signWithHasher(this.rollupPrvKey, h, hash);
-        return packSignature(sig);
+        const sig = eddsa_1.signWithHasher(this.rollupPrvKey, h, hash_1.hash);
+        return eddsa_1.packSignature(sig);
     }
     signHash(h) {
-        const sig = signWithHasher(this.rollupPrvKey, h, hash);
+        const sig = eddsa_1.signWithHasher(this.rollupPrvKey, h, hash_1.hash);
         return {
             hash: h,
             S: sig.S,
@@ -46,21 +51,24 @@ class L2Account {
         };
     }
 }
+exports.L2Account = L2Account;
 function randomMnemonic() {
-    let entropy = randomBytes(16);
-    const mnemonic = entropyToMnemonic(entropy);
+    let entropy = random_1.randomBytes(16);
+    const mnemonic = hdnode_1.entropyToMnemonic(entropy);
     return mnemonic;
 }
+exports.randomMnemonic = randomMnemonic;
 class TxSignature {
 }
+exports.TxSignature = TxSignature;
 class Account {
     static fromMnemonic(mnemonic, chainId = 1) {
-        const privKey = HDNode.fromMnemonic(mnemonic, null, null).derivePath(defaultPath).privateKey;
+        const privKey = hdnode_1.HDNode.fromMnemonic(mnemonic, null, null).derivePath(hdnode_1.defaultPath).privateKey;
         return Account.fromPrivkey(privKey, chainId);
     }
     static fromPrivkey(privKey, chainId = 1) {
         const msgHash = ethers.utils.hashMessage(get_CREATE_L2_ACCOUNT_MSG(chainId));
-        const signKey = new SigningKey(privKey);
+        const signKey = new signing_key_1.SigningKey(privKey);
         const signature = ethers.utils.joinSignature(signKey.signDigest(msgHash));
         return Account.fromSignature(signature, chainId);
     }
@@ -94,5 +102,5 @@ class Account {
         return this.l2Account.bjjPubKey;
     }
 }
-export { L2Account, Account, get_CREATE_L2_ACCOUNT_MSG, recoverPublicKeyFromSignature, randomMnemonic, TxSignature };
+exports.Account = Account;
 //# sourceMappingURL=account.js.map
