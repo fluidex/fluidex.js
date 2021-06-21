@@ -1,0 +1,44 @@
+{
+  "name": "fluidex.js",
+  "version": "0.0.1",
+  "description": "SDK for Fluidex Rollup",
+  "main": "./dist/index.js",
+  "build": "npx tsc",
+  "scripts": {
+    "fmt": "npx prettier --write \"**/*.{js,ts}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fluidex/fluidex.js.git"
+  },
+  "keywords": [
+    "layer2",
+    "zkrollup"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fluidex/fluidex.js/issues"
+  },
+  "homepage": "https://github.com/Fluidex/fluidex.js#readme",
+  "dependencies": {
+    "@ethersproject/hdnode": "^5.2.0",
+    "@ethersproject/random": "^5.2.0",
+    "@ethersproject/signing-key": "^5.2.0",
+    "ffjavascript": "^0.2.36",
+    "circomlib": "^0.5.0",
+    "ethers": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.11",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "decimal.js": "^10.2.1",
+    "eslint": "^7.22.0",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.2",
+    "web3-utils": "^1.3.0"
+  }
+}
