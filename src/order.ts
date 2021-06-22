@@ -26,10 +26,10 @@ export class OrderInput {
   hash(): bigint {
     // although there is no 'TxType.PlaceOrder' now, we can see it as a 'SignType'
     const magicHead = 4n; // TxType.PlaceOrder
-    let data = hash([magicHead, this.orderId, this.tokenSell, this.tokenBuy, this.totalSell, this.totalBuy]);
+    let data = hash([magicHead, this.tokenSell, this.tokenBuy, this.totalSell, this.totalBuy]);
     //data = hash([data, accountID, nonce]);
     // nonce and orderID seems redundant?
-    data = hash([data, this.accountID]);
+    //data = hash([data, this.accountID]);
     return data;
   }
   signWith(account: Account) {
