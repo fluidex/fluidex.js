@@ -47,9 +47,9 @@ class L2Account {
     //this.bjjCompressed = utils.padZeros(ffutils.leBuff2int(compressedBuff).toString(16), 64);
   }
 
-  signHashPacked(h: bigint) {
+  signHashPacked(h: bigint): string {
     const sig = signWithHasher(this.rollupPrvKey, h, hash);
-    return packSignature(sig);
+    return packSignature(sig).toString('hex');
   }
 
   signHash(h: bigint): TxSignature {
@@ -82,6 +82,7 @@ class Account {
 
   static fromMnemonic(mnemonic, chainId = 1): Account {
     const privKey = HDNode.fromMnemonic(mnemonic, null, null).derivePath(defaultPath).privateKey;
+    //console.log('eth priv key', privKey);
     return Account.fromPrivkey(privKey, chainId);
   }
   static fromPrivkey(privKey, chainId = 1): Account {
@@ -97,6 +98,7 @@ class Account {
     acc.ethAddr = ethers.utils.computeAddress(acc.publicKey);
     // Derive a L2 private key from seed
     const seed = ethers.utils.arrayify(signature).slice(0, 32);
+    //console.log('seed', seed)
     acc.l2Account = new L2Account(seed);
     return acc;
   }
@@ -106,6 +108,9 @@ class Account {
   }
   signHash(h: bigint): TxSignature {
     return this.l2Account.signHash(h);
+  }
+  signHashPacked(h: bigint): string {
+    return this.l2Account.signHashPacked(h);
   }
   get ay(): bigint {
     return this.l2Account.ay;
