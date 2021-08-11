@@ -1,6 +1,6 @@
 # fluidex.js
 
-fluidex.js is an SDK to interact with the Fluidex Rollup.
+fluidex.js is an SDK to interact with the FluiDex Rollup.
 
 # features
 
