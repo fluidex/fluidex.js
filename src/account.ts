@@ -1,12 +1,11 @@
-import {prv2pub, signWithHasher, packSignature} from './eddsa';
-import {babyJub} from 'circomlib';
+import { prv2pub, signWithHasher, packSignature } from './eddsa';
+import { babyJub } from 'circomlib';
 import { ffutils, Scalar } from './ffjs';
 import * as ethers from 'ethers';
 import { randomBytes } from '@ethersproject/random';
 import { defaultPath, HDNode, entropyToMnemonic, Mnemonic } from '@ethersproject/hdnode';
 import { SigningKey } from '@ethersproject/signing-key';
 import { hash } from './hash';
-
 
 function get_CREATE_L2_ACCOUNT_MSG(chainID: number): string {
   return 'FLUIDEX_L2_ACCOUNT' + `\nChain ID: ${chainID}.`;
