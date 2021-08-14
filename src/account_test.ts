@@ -60,18 +60,22 @@ function TestL2AccountKeyAndSign() {
   assert(sig.R8y.toString(10) == '1705544521394286010135369499330220710333064238375605681220284175409544486013');
   assert(sig.S.toString(10) == '2104729104368328243963691045555606467740179640947024714099030450797354625308');
   const packedSig = account.signHashPacked(1357924680n);
-  assert(packedSig.toString('hex') == "7ddc5c6aadf5e80200bd9f28e9d5bf932cbb7f4224cce0fa11154f4ad24dc5831c295fb522b7b8b4921e271bc6b265f4d7114fbe9516d23e69760065053ca704");
+  assert(
+    packedSig.toString('hex') ==
+      '7ddc5c6aadf5e80200bd9f28e9d5bf932cbb7f4224cce0fa11154f4ad24dc5831c295fb522b7b8b4921e271bc6b265f4d7114fbe9516d23e69760065053ca704',
+  );
   //console.log(packedSig.toString('hex'));
   //console.log(eddsa.unpackSignature(packedSig));
 }
 
 function TestL2SigVerify() {
   // copied from TestL2AccountKeyAndSign
-  const pubkey = "a59226beb68d565521497d38e37f7d09c9d4e97ac1ebc94fba5de524cb1ca4a0";
+  const pubkey = 'a59226beb68d565521497d38e37f7d09c9d4e97ac1ebc94fba5de524cb1ca4a0';
   const msg = 1357924680n;
-  const sig = "7ddc5c6aadf5e80200bd9f28e9d5bf932cbb7f4224cce0fa11154f4ad24dc5831c295fb522b7b8b4921e271bc6b265f4d7114fbe9516d23e69760065053ca704";
-  const pubkeyPoint = babyJub.unpackPoint(Buffer.from(pubkey, "hex"));
-  assert(eddsa.verifyWithHasher(msg, eddsa.unpackSignature(Buffer.from(sig, "hex")), pubkeyPoint, hash));
+  const sig =
+    '7ddc5c6aadf5e80200bd9f28e9d5bf932cbb7f4224cce0fa11154f4ad24dc5831c295fb522b7b8b4921e271bc6b265f4d7114fbe9516d23e69760065053ca704';
+  const pubkeyPoint = babyJub.unpackPoint(Buffer.from(pubkey, 'hex'));
+  assert(eddsa.verifyWithHasher(msg, eddsa.unpackSignature(Buffer.from(sig, 'hex')), pubkeyPoint, hash));
 }
 
 async function main() {

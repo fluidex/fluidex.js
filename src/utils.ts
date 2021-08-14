@@ -1,7 +1,7 @@
-import {Scalar} from "./ffjs";
+import { Scalar } from './ffjs';
 import { hash } from './hash';
 import * as crypto from 'crypto';
-import {babyJub}  from 'circomlib';
+import { babyJub } from 'circomlib';
 
 /**
  * Convert to hexadecimal string padding until 256 characters
