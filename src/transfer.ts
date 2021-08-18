@@ -1,5 +1,5 @@
-import { Account } from './account';
-import { hash, TxSignature } from './hash';
+import { Account, TxSignature } from './account';
+import { hash } from './hash';
 
 export class TransferTx {
   token_id: bigint = 0n;
