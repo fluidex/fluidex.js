@@ -4,7 +4,7 @@
   "description": "SDK for Fluidex Rollup",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
+    "build": "npx babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "fmt": "npx prettier --write \"**/*.{js,ts}\""
   },
   "repository": {

@@ -42,7 +42,7 @@ class L2Account {
     if (compressedBuff[31] & 0x80) {
       this.sign = 1n;
     }
-    this.bjjPubKey = '0x' + compressedBuff.toString('hex');
+    this.bjjPubKey = '0x' + Buffer.from(compressedBuff).toString('hex');
     //this.bjjCompressed = utils.padZeros(ffutils.leBuff2int(compressedBuff).toString(16), 64);
   }
 
