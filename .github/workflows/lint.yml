@@ -18,9 +18,19 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
+          # cache: 'npm'
+          # cache-dependency-path: package-lock.json
 
-      # TODO: add cache
+      - name: Cache node_modules
+        id: npm_cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
 
-      - run: yarn install
+      - name: npm ci
+        if: steps.npm_cache.outputs.cache-hit != 'true'
+        run:
+          npm ci
 
       - run: npx eslint src/
