@@ -5,3 +5,4 @@ export { poseidon as hash };
 //export { rescueHashJs as hash };
 //import { rescueHashWasm } from './rescue_hash_wasm';
 //export { rescueHashWasm as hash };
+ 
