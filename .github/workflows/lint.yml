@@ -19,6 +19,8 @@ jobs:
         with:
           node-version: '16'
 
+      # TODO: add cache
+
       - run: yarn install
 
       - run: npx eslint src/
