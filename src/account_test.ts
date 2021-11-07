@@ -61,6 +61,7 @@ function TestL2AccountKeyAndSign() {
   assert(sig.S.toString(10) == '2104729104368328243963691045555606467740179640947024714099030450797354625308');
   const packedSig = account.signHashPacked(1357924680n);
   assert(
+    // @ts-ignore
     packedSig.toString('hex') ==
       '7ddc5c6aadf5e80200bd9f28e9d5bf932cbb7f4224cce0fa11154f4ad24dc5831c295fb522b7b8b4921e271bc6b265f4d7114fbe9516d23e69760065053ca704',
   );
