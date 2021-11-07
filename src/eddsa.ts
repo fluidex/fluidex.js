@@ -1,6 +1,6 @@
 /* modified from circomlib/src/eddsa.js */
 
-import createBlakeHash from 'blake-hash';
+import * as createBlakeHash from 'blake-hash';
 import { Scalar, F1Field, ffutils } from './ffjs';
 import { babyJub, poseidon } from 'circomlib';
 
