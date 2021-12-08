@@ -2,7 +2,8 @@
   "name": "fluidex.js",
   "version": "0.0.1",
   "description": "SDK for Fluidex Rollup",
-  "main": "./dist/index.js",
+  "main": "./dist/index",
+  "typings": "dist/index",
   "scripts": {
     "build": "tsc --build",
     "fmt": "npx prettier --write \"**/*.{js,ts}\"",
